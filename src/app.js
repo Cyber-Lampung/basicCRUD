@@ -23,6 +23,10 @@ import userRoutes from "./routes/user.routes.js";
 
 app.use("/users", userRoutes);
 
-app.listen(PORT, () => {
-  console.log(`server berjalan pada port ${PORT}`);
-});
+// // development
+// app.listen(PORT, () => {
+//   console.log(`server berjalan pada port ${PORT}`);
+// });
+
+// deploy
+export default app;

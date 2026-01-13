@@ -1,5 +1,4 @@
 import mysql from "mysql2/promise";
-import fs from "fs";
 
 const db = mysql.createPool({
   host: "gateway01.ap-southeast-1.prod.aws.tidbcloud.com",

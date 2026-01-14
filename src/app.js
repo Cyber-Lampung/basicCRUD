@@ -2,9 +2,20 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import * as dotenv from "dotenv";
+import { rateLimit } from "express-rate-limit";
 dotenv.config({ debug: true });
 
+// config rate limit untuk mitigasi hit endpoint terlalu banyak
+
+const limit = rateLimit({
+  windowMs: 1 * 60 * 1000, // lama limit untuk per Ip => 15 menit
+  max: 10, // limit untuk hit yang diperbolehkan setiap ip
+  standardHeaders: "draft-7", // setting IETF standar rateLimiting headers
+  legacyHeaders: false,
+});
+
 const app = express();
+// app.use(limit);
 
 app.use(express.json());
 app.use(
@@ -12,21 +23,25 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+
 app.use(helmet());
-const PORT = process.env.PORT;
 
 // import Route
-
 import userRoutes from "./routes/user.routes.js";
 
 // app
 
-app.use("/users", userRoutes);
-
-// development
-app.listen(PORT, () => {
-  console.log(`server berjalan pada port ${PORT}`);
+app.get("/", (req, res) => {
+  res.send("server is Alive ");
 });
 
-deploy;
+app.use("/users", userRoutes);
+// app.use("/sessions")
+
+// dev testing
+// app.listen(PORT, () => {
+//   console.log(`server berjalan pada port ${PORT}`);
+// });
+
+// deploy prodaction
 export default app;

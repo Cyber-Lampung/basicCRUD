@@ -3,8 +3,12 @@ import DeleteUserModel from "../model/repository/deleteUser.model.js";
 const DeleteAccountService = async (req) => {
   const userId = req.params.id;
 
-  //   kirim userId ke model untuk di check
+  // testing jika userId kosong
+  // if (!userId) {
+  //   return { status: "paramError", message: "userId not empety" };
+  // }
 
+  //   kirim userId ke model untuk di check
   const serchUser = await DeleteUserModel(userId);
 
   if (serchUser) {

@@ -7,7 +7,12 @@ const DeleteUserModel = async (userId) => {
     userId,
   ]);
 
-  if (searchUser.affectedRows > 0) {
+  const [deleteSession] = await db.query(
+    "delete from sessions where userId = ?",
+    [userId]
+  );
+
+  if (searchUser.affectedRows > 0 && deleteSession.affectedRows > 0) {
     return true;
   } else {
     return false;

@@ -1,15 +1,3 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
+import app from "./app.js";
 
-const app = express();
-
-app.use(express.json());
-app.use(cors({ origin: "*" }));
-app.use(helmet());
-
-// routes
-import userRoutes from "./routes/user.routes.js";
-app.use("/users", userRoutes);
-
-export default app;
+app.listen(3000);

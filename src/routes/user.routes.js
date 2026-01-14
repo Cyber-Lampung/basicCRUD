@@ -6,11 +6,13 @@ import getUserController from "../controllers/getUser.controller.js";
 import updateUserController from "../controllers/updateUser.controller.js";
 import checkEmail from "../middleware/checkEmail.js";
 import emailUsed from "../middleware/emailUsed.js";
+import loginController from "../controllers/login.controller.js";
+// import checkParams from "../middleware/checkParams.js";
 
 const router = express.Router();
 router.use(checkTokenHeader);
 
-router.get("/user", (req, res, next) => {
+router.get("/user", checkTokenHeader, (req, res, next) => {
   // controller
   getUserController(req, res, next);
 });
@@ -20,12 +22,22 @@ router.post("/register", checkEmail, emailUsed, (req, res, next) => {
   Register(req, res, next);
 });
 
-router.patch("/user/edit/:id", checkEmail, (req, res, next) => {
+router.post("/login", checkEmail, (req, res, next) => {
   // controller
-  updateUserController(req, res, next);
+  loginController(req, res, next);
 });
 
-router.delete("/delete/:id", (req, res, next) => {
+router.patch(
+  "/user/edit/:id",
+  checkTokenHeader,
+  checkEmail,
+  (req, res, next) => {
+    // controller
+    updateUserController(req, res, next);
+  }
+);
+
+router.delete("/delete/:id", checkTokenHeader, (req, res, next) => {
   // controller
   DeleteAccount(req, res, next);
 });

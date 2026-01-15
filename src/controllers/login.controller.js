@@ -1,16 +1,30 @@
 import loginService from "../services/login.service.js";
 
 const loginController = async (req, res, next) => {
-  // kirim semua ke service dan balikan kembali ke controller dalam bentuk response
+  // ambil inputan user dari req.body
+  const { email, password } = req.body;
 
-  const validasi = await loginService(req, res, next);
+  // kirim semua ke service dan balikan kembali ke controller dalam bentuk response
+  const validasi = await loginService({ email, password });
 
   //   console.log(validasi); => testing
 
   if (validasi.status) {
-    return res.status(200).json({ status: 200, message: "succes login" });
+    res.cookie("session", validasi.session, {
+      httpOnly: true,
+      // secure: process.env.NODE_ENV === "production", => ngambil dari env
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: "strict",
+    });
+
+    return res.status(200).json({
+      status: 200,
+      message: "succes login",
+      // session: validasi.session,
+    });
   } else {
-    return res.status(404).json({ status: 404, message: validasi.message });
+    return res.status(401).json({ status: 404, message: validasi.message });
   }
 };
 

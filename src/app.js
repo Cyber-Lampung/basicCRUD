@@ -1,8 +1,10 @@
+// all module for local and production
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import * as dotenv from "dotenv";
 import { rateLimit } from "express-rate-limit";
+import cookieParser from "cookie-parser";
 dotenv.config({ debug: true });
 
 // config rate limit untuk mitigasi hit endpoint terlalu banyak
@@ -15,7 +17,7 @@ const limit = rateLimit({
 });
 
 const app = express();
-// app.use(limit);
+app.use(limit);
 
 app.use(express.json());
 app.use(
@@ -23,7 +25,7 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
-
+app.use(cookieParser());
 app.use(helmet());
 
 // import Route

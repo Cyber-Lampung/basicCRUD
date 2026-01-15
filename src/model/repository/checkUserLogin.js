@@ -7,8 +7,21 @@ const checkUserInDb = async (email) => {
     email,
   ]);
 
-  if (isUser.affectedRows > 0) {
-    return true;
+  if (!isUser[0]) {
+    return false;
+  }
+
+  const [findSessionId] = await db.query(
+    "select * from sessions where userId = ?",
+    [isUser[0].userId]
+  );
+
+  if (isUser[0] && findSessionId) {
+    return {
+      status: true,
+      data: isUser[0],
+      session: findSessionId[0].sessionId,
+    };
   } else {
     return false;
   }

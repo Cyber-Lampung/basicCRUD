@@ -10,7 +10,7 @@ import loginController from "../controllers/login.controller.js";
 // import checkParams from "../middleware/checkParams.js";
 
 const router = express.Router();
-router.use(checkTokenHeader);
+// router.use(checkTokenHeader);
 
 router.get("/user", (req, res, next) => {
   // controller

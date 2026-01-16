@@ -10,7 +10,7 @@ dotenv.config({ debug: true });
 // config rate limit untuk mitigasi hit endpoint terlalu banyak
 
 const limit = rateLimit({
-  windowMs: 1 * 60 * 1000, // lama limit untuk per Ip => 15 menit
+  windowMs: 1 * 60 * 1000, // lama limit untuk per Ip => 15 menit ( menyesuaikan )
   max: 10, // limit untuk hit yang diperbolehkan setiap ip
   standardHeaders: "draft-7", // setting IETF standar rateLimiting headers
   legacyHeaders: false,

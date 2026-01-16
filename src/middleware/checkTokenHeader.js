@@ -1,7 +1,7 @@
 const checkTokenHeader = (req, res, next) => {
   // check token
 
-  const tokenHeader = req.headers.barer;
+  const tokenHeader = req.headers.authorization;
 
   if (!tokenHeader) {
     return res

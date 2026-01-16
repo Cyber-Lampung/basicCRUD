@@ -1,11 +1,14 @@
 import mysql from "mysql2/promise";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const db = mysql.createPool({
-  host: "gateway01.ap-southeast-1.prod.aws.tidbcloud.com",
-  port: 4000,
-  user: "4PZot5mh3bKn3yK.root",
-  password: "LV6QoKgxZ9FEa1Cs",
-  database: "users",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   ssl: { rejectUnauthorized: false },
   queueLimit: true,
   connectionLimit: 10,

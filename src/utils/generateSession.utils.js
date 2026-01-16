@@ -7,7 +7,7 @@ const createSessionId = (userId) => {
   const payload = { userId: userId };
 
   // ambil secret key dari dotenv
-  const secretKey = process.env.secretKey;
+  const secretKey = process.env.JWT_SECRET || "your-default-secret-key";
 
   return jwt.sign(payload, secretKey, { algorithm: "HS256" });
 };

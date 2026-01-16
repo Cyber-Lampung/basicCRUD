@@ -1,11 +1,14 @@
 const checkEmail = (req, res, next) => {
-  const atEmail = /(@gmail.com)/;
+  // Simple email regex validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // check req.body
   const { email } = req.body;
 
-  if (atEmail.test(email) === false) {
-    return res.status(409).json({ message: "invalid email" });
+  if (!email || emailRegex.test(email) === false) {
+    return res.status(400).json({
+      status: 400,
+      message: "invalid email format",
+    });
   }
 
   next();

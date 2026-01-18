@@ -7,14 +7,14 @@ const loginController = async (req, res, next) => {
   // kirim semua ke service dan balikan kembali ke controller dalam bentuk response
   const validasi = await loginService({ email, password });
 
-  //   console.log(validasi); => testing
+  // console.log(validasi.session); // => testing
 
   if (validasi.status) {
     res.cookie("session", validasi.session, {
       httpOnly: true,
       // secure: process.env.NODE_ENV === "production", => ngambil dari env
       secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: process.env.SESSION_MAX_AGE,
       sameSite: "strict",
     });
 

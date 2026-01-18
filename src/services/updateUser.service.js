@@ -1,16 +1,12 @@
 import updateUserModel from "../model/repository/updateUser.model.js";
 import bcryptPassword from "../utils/hashPassword.js";
 
-const updateUserService = async (req) => {
+const updateUserService = async (email, username, password, user_id) => {
   // ambil function untuk check user dan update user dari model
   const { validasiUserUpdate, updateUser } = await updateUserModel();
   const { hashPassword } = await bcryptPassword();
-
-  // ambil userId dari params
-  const userId = req.params.id;
-
   //   check user in DB
-  const isValidasiUser = await validasiUserUpdate(userId);
+  const isValidasiUser = await validasiUserUpdate(user_id);
 
   // validasi apakah user ada atau tidak
   if (isValidasiUser.user.length === 0) {
@@ -18,9 +14,6 @@ const updateUserService = async (req) => {
   }
 
   const userIdentityForUpdate = isValidasiUser.user[0];
-
-  // ambil user update field lewat req.body
-  const { email, username, password } = req.body;
 
   // hash password
 
@@ -60,7 +53,7 @@ const updateUserService = async (req) => {
 
   const joinFields = fields.join(", ");
 
-  const isUpdateUser = await updateUser(joinFields, values, userId);
+  const isUpdateUser = await updateUser(joinFields, values, user_id);
 
   if (isUpdateUser) {
     return true;

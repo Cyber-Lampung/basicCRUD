@@ -1,12 +1,22 @@
 import UserRegister from "../services/userRegister.service.js";
 
-const Register = (req, res, next) => {
-  const result = UserRegister(req);
+const Register = async (req, res, next) => {
+  const result = await UserRegister(req);
 
-  if (result) {
+  // console.log(result.status);
+
+  if (result.status) {
+    // kirim ke FE lewat cookie
+    res.cookie("session", result.session, {
+      httpOnly: true,
+      secure: true,
+      maxAge: process.env.SESSION_MAX_AGE,
+      sameSite: "strict",
+    });
+
     return res.status(201).json({
       status: 201,
-      message: "succes created password",
+      message: "succes created Account",
       isVerif: false,
     });
   } else {

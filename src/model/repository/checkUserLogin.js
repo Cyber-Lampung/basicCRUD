@@ -12,15 +12,15 @@ const checkUserInDb = async (email) => {
   }
 
   const [findSessionId] = await db.query(
-    "select * from sessions where userId = ?",
-    [isUser[0].userId]
+    "select * from sessions where user_id = ?",
+    [isUser[0].user_id],
   );
 
   if (isUser[0] && findSessionId) {
     return {
       status: true,
       data: isUser[0],
-      session: findSessionId[0].sessionId,
+      session: findSessionId[0].session_id,
     };
   } else {
     return false;

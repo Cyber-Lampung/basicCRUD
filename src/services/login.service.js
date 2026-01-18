@@ -28,7 +28,7 @@ const loginService = async ({ email, password }) => {
 
   const isValidPassword = await comparePassword(
     password,
-    userValidasi.data.password
+    userValidasi.data.password,
   );
 
   if (!isValidPassword) {

@@ -1,15 +1,14 @@
+import jwt from "jsonwebtoken";
 import DeleteUserModel from "../model/repository/deleteUser.model.js";
 
-const DeleteAccountService = async (req) => {
-  const userId = req.params.id;
+const DeleteAccountService = async (token) => {
+  // console.log(token); => testing
 
-  // testing jika userId kosong
-  // if (!userId) {
-  //   return { status: "paramError", message: "userId not empety" };
-  // }
+  const secretPublicKey = process.env.JWT_SECRET;
+  const verifToken = await jwt.verify(token, secretPublicKey);
 
   //   kirim userId ke model untuk di check
-  const serchUser = await DeleteUserModel(userId);
+  const serchUser = await DeleteUserModel(verifToken.userId);
 
   if (serchUser) {
     return { status: "succes", message: "succes delete users" };

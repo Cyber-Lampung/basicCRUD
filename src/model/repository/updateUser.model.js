@@ -3,7 +3,7 @@ import db from "../database/db.js";
 const updateUserModel = () => {
   // check user terlebih dahulu
   async function validasiUserUpdate(userId) {
-    const [users] = await db.query("select * from users where userId = ?", [
+    const [users] = await db.query("select * from users where user_id = ?", [
       userId,
     ]);
 
@@ -19,7 +19,7 @@ const updateUserModel = () => {
 
     const [email, username, password] = values;
 
-    const sqlUpdateUser = `update users set ${joinFields} where userId = ? `;
+    const sqlUpdateUser = `update users set ${joinFields} where user_id = ? `;
 
     const [updateStatus] = await db.query(sqlUpdateUser, [
       email,

@@ -7,6 +7,7 @@ import bcryptPassword from "../utils/hashPassword.js";
 const UserRegister = async (req) => {
   // ambil function untuk hash password
   const { hashPassword } = await bcryptPassword();
+  const { dateTimeNow, expires_at } = createdDateTime();
 
   const { email, username, password } = req.body;
 
@@ -21,27 +22,32 @@ const UserRegister = async (req) => {
   const passwordHash = await hashPassword(password);
 
   // sessionId
-  const sessionId = await createSessionId(userId);
+  const sessionId = await createSessionId(userId, "7d");
 
-  // create dateTime
+  // set iVerif
 
-  const dateTimeNow = await createdDateTime();
+  const isVerif = false;
+
+  // create dateTime dan expires_time
 
   const create_at = dateTimeNow();
+  const expires = expires_at();
 
-  const check = saveRegisterUer(
+  const check = await saveRegisterUer(
     userId,
     email,
     username,
     passwordHash,
     sessionId,
-    create_at
+    create_at,
+    expires,
+    isVerif,
   );
 
-  if (check) {
-    return true;
+  if (check.status === true) {
+    return { status: true, session: check.session };
   } else {
-    return false;
+    return { status: false };
   }
 };
 

@@ -9,7 +9,15 @@ const createdDateTime = () => {
       .replace("T", "");
   };
 
-  return dateTimeNow;
+  const expires_at = () => {
+    const date = new Date();
+
+    return new Date(date.getTime() + 168 * 60 * 60 * 1000)
+      .toLocaleString("sv-SE", { timeZone: "Asia/Jakarta" })
+      .replace("T", "");
+  };
+
+  return { dateTimeNow, expires_at };
 };
 
 export default createdDateTime;

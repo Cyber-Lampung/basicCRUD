@@ -6,26 +6,30 @@ const saveRegisterUer = async (
   username,
   password,
   sessionId,
-  create_at
+  create_at,
+  expires_at,
+  isVerif,
 ) => {
   // save user dalama database
 
   const [saveUser] = await db.query(
-    "insert into users (userId, email, username, password) values (?, ?, ?, ?)",
-    [userId, email, username, password]
+    "insert into users (user_id, email, username, password, created_at, isVerif) values (?, ?, ?, ?, ?, ?)",
+    [userId, email, username, password, create_at, isVerif],
   );
 
   const [saveSession] = await db.query(
-    "insert into sessions (userId, sessionId, created_at) values (?, ?, ?)",
-    [userId, sessionId, create_at]
+    "insert into sessions (session_id, user_id, created_at, expires_at) values (?, ?, ?, ?)",
+    [sessionId, userId, create_at, expires_at],
   );
 
-  // console.log(saveUser); => testing
+  // console.table(saveSession[0]);
+
+  // console.log(await saveSession[0]); // => testing
 
   if (saveUser.affectedRows > 0 && saveSession.affectedRows > 0) {
-    return true;
+    return { status: true, session: sessionId };
   } else {
-    return false;
+    return { status: false };
   }
 };
 

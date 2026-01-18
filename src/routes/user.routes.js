@@ -27,17 +27,12 @@ router.post("/login", checkEmail, (req, res, next) => {
   loginController(req, res, next);
 });
 
-router.patch(
-  "/user/edit/:id",
-  checkTokenHeader,
-  checkEmail,
-  (req, res, next) => {
-    // controller
-    updateUserController(req, res, next);
-  }
-);
+router.patch("/user/edit", checkTokenHeader, checkEmail, (req, res, next) => {
+  // controller
+  updateUserController(req, res, next);
+});
 
-router.delete("/delete/:id", checkTokenHeader, (req, res, next) => {
+router.delete("/delete", (req, res, next) => {
   // controller
   DeleteAccount(req, res, next);
 });
